@@ -74,7 +74,7 @@ export const cv = {
     {
       role: "Manager & Digital Marketing",
       company: "Hotel Guest Rooms UCU",
-      period: "Серпень 2014 — дотепер",
+      period: "Серпень 2015 — дотепер",
       points: [
         "Проводив digital трансформацію: сайт, інтеграції онлайн-бронювань",
         "Вів SMM та email маркетинг (CRM)",
