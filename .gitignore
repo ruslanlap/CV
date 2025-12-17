@@ -17,3 +17,5 @@ pnpm-lock.yaml
 # OS generated files
 Thumbs.db
 Desktop.ini
+.vercel
+.env*.local
