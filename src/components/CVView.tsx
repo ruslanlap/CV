@@ -52,34 +52,77 @@ export default function CVView({
 }) {
   const pdfHref = `/cv/pdf?lang=${lang}`;
 
+  const handleDownloadVCard = () => {
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:${cv.name}
+TITLE:${cv.role}
+EMAIL:${cv.contacts.email}
+TEL:${cv.contacts.phone}
+URL:${cv.contacts.github}
+ADR:;;${cv.location};;;;
+END:VCARD`;
+    const blob = new Blob([vcard], { type: "text/vcard" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${cv.name.replace(" ", "_")}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main className="py-12">
       <Section
         title={lang === "en" ? "About" : "Про мене"}
         right={
-          <a
-            href={pdfHref}
-            target="_blank"
-            rel="noreferrer"
-            className="no-underline rounded-lg bg-accent px-4 py-2 text-sm font-medium text-base2 hover:opacity-90 transition inline-flex items-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          <div className="flex gap-2">
+            <button
+              onClick={handleDownloadVCard}
+              className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-border bg-base px-4 py-2 text-sm font-medium text-text hover:bg-surface/50 transition"
             >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" x2="12" y1="15" y2="3" />
-            </svg>
-            {lang === "en" ? "Download PDF" : "Завантажити PDF"}
-          </a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              {lang === "en" ? "Save Contact" : "Зберегти контакт"}
+            </button>
+            <a
+              href={pdfHref}
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline rounded-lg bg-accent px-4 py-2 text-sm font-medium text-base2 hover:opacity-90 transition inline-flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" x2="12" y1="15" y2="3" />
+              </svg>
+              {lang === "en" ? "Download PDF" : "Завантажити PDF"}
+            </a>
+          </div>
         }
       >
         <p className="text-subtext">{cv.summary}</p>
@@ -152,6 +195,16 @@ export default function CVView({
                 <span>{c.date}</span>
               </div>
             </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section title={lang === "en" ? "Hobbies & Interests" : "Хобі та Інтереси"}>
+        <div className="flex flex-wrap gap-2">
+          {cv.hobbies.map((hobby) => (
+            <Badge key={hobby} icon={<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5c0-2-2-4-2-4 0-2 2-4 2-4" /></svg>}>
+              {hobby}
+            </Badge>
           ))}
         </div>
       </Section>

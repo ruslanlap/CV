@@ -1,4 +1,4 @@
-# Ruslan Next.js CV (EN/UA) — Copilot Instructions
+# Ruslan Next.js CV (EN/UA) опис проекту , ключові речі 
 
 Цей репозиторій — двомовний CV-сайт (EN/UA) на Next.js App Router з Tailwind CSS і темами Catppuccin (Latte/Mocha).
 Сайт має сторінки `/en` і `/ua`, перемикач теми (Latte ↔ Mocha), блок GitHub-статистики, “Tailored summary” (stub) і сторінку для друку/збереження у PDF: `/cv/pdf?lang=en|ua`.
