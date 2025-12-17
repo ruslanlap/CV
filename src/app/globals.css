@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Catppuccin Latte (default) */
+:root {
+  --ctp-base: #eff1f5;
+  --ctp-base2: #303446;
+  --ctp-mantle: #e6e9ef;
+  --ctp-crust: #dce0e8;
+  --ctp-text: #4c4f69;
+  --ctp-subtext: #5c5f77;
+  --ctp-surface: #ccd0da;
+  --ctp-border: #bcc0cc;
+  --ctp-accent: #a6d189;
+}
+
+/* Catppuccin Mocha (dark) */
+.dark {
+  --ctp-base: #1e1e2e;
+  --ctp-base2: #303446;
+  --ctp-mantle: #181825;
+  --ctp-crust: #11111b;
+  --ctp-text: #cdd6f4;
+  --ctp-subtext: #a6adc8;
+  --ctp-surface: #313244;
+  --ctp-border: #45475a;
+  --ctp-accent: #a6d189;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-base text-text antialiased;
+}
+
+a {
+  @apply underline decoration-border underline-offset-4;
+}
+
+/* Print defaults */
+@media print {
+  a {
+    text-decoration: none !important;
+  }
+}
