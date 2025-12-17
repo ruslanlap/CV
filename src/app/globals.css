@@ -1,6 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-base: var(--ctp-base);
+  --color-base2: var(--ctp-base2);
+  --color-mantle: var(--ctp-mantle);
+  --color-crust: var(--ctp-crust);
+  --color-text: var(--ctp-text);
+  --color-subtext: var(--ctp-subtext);
+  --color-surface: var(--ctp-surface);
+  --color-border: var(--ctp-border);
+  --color-accent: var(--ctp-accent);
+}
 
 /* Catppuccin Latte (default) */
 :root {
