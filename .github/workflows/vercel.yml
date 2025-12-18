@@ -44,5 +44,5 @@ jobs:
         run: vercel deploy --prebuilt --yes --token=$VERCEL_TOKEN
 
       - name: Deploy Production
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: vercel deploy --prebuilt --prod --yes --token=$VERCEL_TOKEN
