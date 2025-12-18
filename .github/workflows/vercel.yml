@@ -1,0 +1,48 @@
+name: Vercel Deploy (prebuilt)
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - src/**
+      - app/**
+      - public/**
+      - package.json
+      - vercel.json
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Vercel build (output)
+        run: vercel build --token=$VERCEL_TOKEN
+
+      - name: Deploy Preview
+        if: github.event_name == 'pull_request'
+        run: vercel deploy --prebuilt --yes --token=$VERCEL_TOKEN
+
+      - name: Deploy Production
+        if: github.ref == 'refs/heads/main'
+        run: vercel deploy --prebuilt --prod --yes --token=$VERCEL_TOKEN
