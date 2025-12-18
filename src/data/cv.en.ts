@@ -10,7 +10,7 @@ export const cv = {
     linkedin: "LinkedIn",
   },
   summary:
-    "Full Stack Developer & DevOps Engineer with extensive experience building scalable web applications, CLI tools, and desktop apps. Proficient in React, TypeScript, Python, and C#/.NET. Creator of popular open-source projects including PowerToys Run plugins, Python CLI tools, and browser extensions. Passionate about developer experience, automation, and clean architecture.",
+    "Full Stack Developer & DevOps Engineer with extensive experience building scalable web applications, Telegram bots, CLI tools, and desktop apps. Proficient in React, TypeScript, Python, and C#/.NET. Creator of popular open-source projects including PowerToys Run plugins, Python CLI tools, and browser extensions. Passionate about developer experience, automation, and clean architecture.",
   skills: {
     "Frontend Development": [
       "JavaScript (ES6+)",
@@ -26,6 +26,7 @@ export const cv = {
       "Python",
       "Node.js",
       "REST APIs",
+      "Telegram Bot API",
       "Click/Typer CLI",
       "PyQt6",
     ],
@@ -64,6 +65,7 @@ export const cv = {
       points: [
         "Developed responsive web applications using React, TypeScript, Next.js, and Tailwind CSS",
         "Created 15+ PowerToys Run plugins (QuickAI, Package Manager, QuickBrain, Video Downloader, etc.) with 1000+ downloads",
+        "Developed and maintained complex Telegram bots using Python (Aiogram, Pyrogram) and Node.js",
         "Built Python CLI tools: GH-Pulse (GitHub analytics), EasyEnv (environment management), and MkDocs themes",
         "Developed cross-platform desktop applications using Python (PyQt6) with Telegram and Notion API integrations",
         "Created SVG Extractor Pro browser extension for Firefox and Chrome with 100+ users",

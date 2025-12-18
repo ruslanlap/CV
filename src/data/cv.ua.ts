@@ -10,7 +10,7 @@ export const cv = {
     linkedin: "LinkedIn",
   },
   summary:
-    "Full Stack Developer & DevOps Engineer з великим досвідом розробки масштабованих вебзастосунків, CLI-інструментів та десктопних додатків. Володію React, TypeScript, Python та C#/.NET. Автор популярних open-source проектів: PowerToys Run плагіни, Python CLI інструменти та браузерні розширення. Захоплений автоматизацією та чистою архітектурою.",
+    "Full Stack Developer & DevOps Engineer з великим досвідом розробки масштабованих вебзастосунків, Telegram-ботів, CLI-інструментів та десктопних додатків. Володію React, TypeScript, Python та C#/.NET. Автор популярних open-source проектів: PowerToys Run плагіни, Python CLI інструменти та браузерні розширення. Захоплений автоматизацією та чистою архітектурою.",
   skills: {
     "Frontend": [
       "JavaScript (ES6+)",
@@ -26,6 +26,7 @@ export const cv = {
       "Python",
       "Node.js",
       "REST APIs",
+      "Telegram Bot API",
       "Click/Typer CLI",
       "PyQt6",
     ],
@@ -64,6 +65,7 @@ export const cv = {
       points: [
         "Розробляв адаптивні вебзастосунки на React, TypeScript, Next.js та Tailwind CSS",
         "Створив 15+ PowerToys Run плагінів (QuickAI, Package Manager, QuickBrain, Video Downloader тощо) з 1000+ завантажень",
+        "Розробляв та підтримував складні Telegram-боти з використанням Python (Aiogram, Pyrogram) та Node.js",
         "Розробив Python CLI інструменти: GH-Pulse (аналітика GitHub), EasyEnv (менеджмент середовищ), MkDocs теми",
         "Створив кросплатформні десктопні додатки на Python (PyQt6) з інтеграцією Telegram та Notion API",
         "Розробив браузерне розширення SVG Extractor Pro для Firefox та Chrome зі 100+ користувачами",
