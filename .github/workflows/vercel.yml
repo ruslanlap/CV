@@ -1,5 +1,8 @@
 name: Vercel Deploy (prebuilt)
 
+
+# add manual trigger to deploy
+
 on:
   push:
     branches: [ master ]
