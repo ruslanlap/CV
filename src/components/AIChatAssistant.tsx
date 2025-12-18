@@ -19,14 +19,18 @@ export default function AIChatAssistant({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [remaining, setRemaining] = useState<number | null>(null);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+        }
     };
 
     useEffect(() => {
-        scrollToBottom();
+        if (messages.length > 0) {
+            scrollToBottom();
+        }
     }, [messages]);
 
     const exampleQuestions = useMemo(() => {
@@ -121,7 +125,10 @@ export default function AIChatAssistant({
             </div>
 
             {/* Messages Area */}
-            <div className="h-[280px] overflow-y-auto p-4 space-y-3 scrollbar-thin">
+            <div
+                ref={scrollContainerRef}
+                className="h-[280px] overflow-y-auto p-4 space-y-3 scrollbar-thin scroll-smooth"
+            >
                 {messages.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-center">
                         <div className="text-4xl mb-3">💬</div>
@@ -159,7 +166,6 @@ export default function AIChatAssistant({
                         </div>
                     </div>
                 )}
-                <div ref={messagesEndRef} />
             </div>
 
             {/* Quick Examples */}
