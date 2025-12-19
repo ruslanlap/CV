@@ -5,43 +5,7 @@ import GitHubStats from "@/components/GitHubStats";
 import AIChatAssistant from "@/components/AIChatAssistant";
 import { getIcon } from "@/components/icon-map";
 
-interface CV {
-  name: string;
-  role: string;
-  location: string;
-  contacts: {
-    email: string;
-    phone: string;
-    telegram: string;
-    github: string;
-    linkedin: string;
-  };
-  summary: string;
-  skills: Record<string, readonly string[]>;
-  experience: readonly {
-    role: string;
-    company: string;
-    period: string;
-    points: readonly string[];
-  }[];
-  projects: readonly {
-    name: string;
-    desc: string;
-    link: string;
-    stack: readonly string[];
-  }[];
-  languages: readonly {
-    name: string;
-    level: string;
-  }[];
-  courses: readonly {
-    name: string;
-    source: string;
-    date: string;
-    link?: string;
-  }[];
-  hobbies: readonly string[];
-}
+import { CV } from "@/types/cv";
 
 import VCardButton from "@/components/VCardButton";
 
@@ -57,60 +21,41 @@ export default function CVView({
   const pdfHref = `/cv/pdf?lang=${lang}`;
 
   return (
-    <main className="py-12">
+    <main className="pb-12 pt-4">
       <Section
+        id="about"
         title={lang === "en" ? "About" : "Про мене"}
-        right={
-          <div className="flex gap-2">
-            <VCardButton cv={cv} label={lang === "en" ? "Save Contact" : "Зберегти контакт"} />
-            <a
-              href={pdfHref}
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline rounded-lg bg-accent px-4 py-2 text-sm font-medium text-base2 hover:opacity-90 transition inline-flex items-center gap-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" x2="12" y1="15" y2="3" />
-              </svg>
-              {lang === "en" ? "Download PDF" : "Завантажити PDF"}
-            </a>
-          </div>
-        }
       >
         <p className="text-subtext">{cv.summary}</p>
 
         <div className="mt-5 flex flex-wrap gap-2">
           <Badge icon={getIcon("location")}>{cv.location}</Badge>
-          <Badge icon={getIcon("email")}>{cv.contacts.email}</Badge>
-          <Badge icon={getIcon("telegram")}>{cv.contacts.telegram}</Badge>
-          <Badge icon={getIcon("github")}>{"GitHub: ruslanlap"}</Badge>
+          <a href={`mailto:${cv.contacts.email}`} className="no-underline">
+            <Badge icon={getIcon("email")}>{cv.contacts.email}</Badge>
+          </a>
+          <a href={`https://t.me/${cv.contacts.telegram.replace("@", "")}`} target="_blank" rel="noreferrer" className="no-underline">
+            <Badge icon={getIcon("telegram")}>{cv.contacts.telegram}</Badge>
+          </a>
+          <a href={`https://github.com/${cv.contacts.github}`} target="_blank" rel="noreferrer" className="no-underline">
+            <Badge icon={getIcon("github")}>{`GitHub: ${cv.contacts.github}`}</Badge>
+          </a>
         </div>
       </Section>
 
-      <Section title={lang === "en" ? "Experience" : "Досвід"}>
-        <div className="space-y-6">
+      <Section id="experience" title={lang === "en" ? "Experience" : "Досвід"}>
+        <div className="space-y-4">
           {cv.experience.map((job) => (
-            <div key={`${job.company}-${job.role}`} className="rounded-2xl border border-border bg-mantle p-5">
+            <div key={`${job.company}-${job.role}`} className="rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                <p className="text-lg font-semibold">{job.role}</p>
-                <p className="text-sm text-subtext">{job.period}</p>
+                <p className="text-lg font-bold text-accent/90">{job.role}</p>
+                <p className="text-sm font-medium text-subtext/60">{job.period}</p>
               </div>
-              <p className="text-sm text-subtext">{job.company}</p>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-text">
+              <p className="text-sm font-semibold text-subtext">{job.company}</p>
+              <ul className="mt-4 space-y-2 text-sm text-text/90">
                 {job.points.map((p) => (
-                  <li key={p}>{p}</li>
+                  <li key={p} className="relative pl-5 before:absolute before:left-0 before:top-[0.6em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-accent/40">
+                    {p}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -118,12 +63,12 @@ export default function CVView({
         </div>
       </Section>
 
-      <Section title={lang === "en" ? "Skills" : "Навички"}>
+      <Section id="skills" title={lang === "en" ? "Skills" : "Навички"}>
         <div className="grid gap-4 md:grid-cols-2">
           {Object.entries(cv.skills).map(([group, items]) => (
-            <div key={group} className="rounded-2xl border border-border bg-mantle p-5">
-              <p className="font-semibold">{group}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
+            <div key={group} className="rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
+              <p className="font-bold text-accent/90 tracking-tight">{group}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
                 {items.map((s) => (
                   <Badge key={s} icon={getIcon(s)}>{s}</Badge>
                 ))}
@@ -133,28 +78,28 @@ export default function CVView({
         </div>
       </Section>
 
-      <Section title={lang === "en" ? "Featured Projects" : "Проєкти"}>
+      <Section id="projects" title={lang === "en" ? "Featured Projects" : "Проєкти"}>
         <div className="grid gap-4 md:grid-cols-2">
-          {cv.projects.map((p) => (
-            <ProjectCard key={p.name} name={p.name} desc={p.desc} link={p.link} stack={p.stack} />
+          {cv.projects.map((p, i) => (
+            <ProjectCard key={p.name} name={p.name} desc={p.desc} link={p.link} stack={p.stack} featured={i === 0} />
           ))}
         </div>
       </Section>
 
-      <Section title="GitHub">
+      <Section id="github" title="GitHub">
         <GitHubStats username="ruslanlap" />
       </Section>
 
-      <Section title={lang === "en" ? "Ask My CV" : "Запитай про CV"}>
+      <Section id="ai-assistant" title={lang === "en" ? "Ask My CV" : "Запитай про CV"}>
         <AIChatAssistant lang={lang} />
       </Section>
 
       <Section title={lang === "en" ? "Education & Courses" : "Освіта та Курси"}>
         <div className="grid gap-4 sm:grid-cols-2">
           {cv.courses.map((c) => (
-            <div key={c.name} className="flex flex-col rounded-2xl border border-border bg-mantle p-5">
-              <p className="font-semibold leading-tight">{c.name}</p>
-              <div className="mt-2 flex items-center justify-between text-sm text-subtext">
+            <div key={c.name} className="flex flex-col rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
+              <p className="font-bold text-accent/90 leading-tight tracking-tight">{c.name}</p>
+              <div className="mt-auto pt-3 flex items-center justify-between text-xs font-medium text-subtext/60">
                 <span>{c.source}</span>
                 <span>{c.date}</span>
               </div>

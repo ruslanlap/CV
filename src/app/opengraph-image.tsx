@@ -88,6 +88,7 @@ export default async function Image() {
                 >
                     <img
                         src={base64Image}
+                        alt="Profile"
                         width="250"
                         height="250"
                         style={{

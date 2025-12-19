@@ -1,4 +1,6 @@
-export const cv = {
+import { CV } from "@/types/cv";
+
+export const cv: CV = {
   name: "Руслан Лапіняк",
   role: "Full Stack Developer & DevOps Engineer",
   location: "Львів, Україна",
@@ -61,12 +63,12 @@ export const cv = {
     {
       role: "Full Stack Developer & Open Source Contributor",
       company: "Freelance",
-      period: "Вересень 2016 — дотепер",
+      period: "Вересень 2020 — дотепер",
       points: [
         "Розробляв адаптивні вебзастосунки на React, TypeScript, Next.js та Tailwind CSS",
         "Створив 15+ PowerToys Run плагінів (QuickAI, Package Manager, QuickBrain, Video Downloader тощо) з 1000+ завантажень",
         "Розробляв та підтримував складні Telegram-боти з використанням Python (Aiogram, Pyrogram) та Node.js",
-        "Розробив Python CLI інструменти: GH-Pulse (аналітика GitHub), EasyEnv (менеджмент середовищ), MkDocs теми",
+        "Розробів Python CLI інструменти: GH-Pulse (аналітика GitHub), EasyEnv (менеджмент середовищ), MkDocs теми",
         "Створив кросплатформні десктопні додатки на Python (PyQt6) з інтеграцією Telegram та Notion API",
         "Розробив браузерне розширення SVG Extractor Pro для Firefox та Chrome зі 100+ користувачами",
         "Налаштовував CI/CD пайплайни через GitHub Actions для автоматизованого тестування та деплою",
@@ -155,5 +157,5 @@ export const cv = {
     "Open Source контрибуції",
     "Self-hosting сервісів",
   ],
-} as const;
+};
 

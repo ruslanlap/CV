@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
+import { CV } from "@/types/cv";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +16,16 @@ type Lang = "en" | "ua";
 
 function getClientIp(req: NextRequest): string {
     const xff = req.headers.get("x-forwarded-for");
-    if (xff) return xff.split(",")[0]!.trim();
+    if (xff) {
+        const ips = xff.split(",");
+        return ips[0]?.trim() || "unknown";
+    }
     const realIp = req.headers.get("x-real-ip");
     if (realIp) return realIp.trim();
     return "unknown";
 }
 
-async function loadCv(lang: Lang) {
+async function loadCv(lang: Lang): Promise<CV> {
     if (lang === "ua") {
         const mod = await import("@/data/cv.ua");
         return mod.cv;
@@ -43,7 +47,7 @@ function calculateAge(birthDate: Date): number {
     return age;
 }
 
-function buildCvContext(cv: any, lang: Lang) {
+function buildCvContext(cv: CV, lang: Lang) {
     const birthDate = new Date(1990, 10, 24); // 24.11.1990
     const age = calculateAge(birthDate);
     const ageInfo = lang === "ua"

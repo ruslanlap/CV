@@ -12,17 +12,17 @@
   --color-accent: var(--ctp-accent);
 }
 
-/* Catppuccin Latte (default) */
+/* Notion-inspired Light Theme */
 :root {
-  --ctp-base: #eff1f5;
-  --ctp-base2: #303446;
-  --ctp-mantle: #e6e9ef;
-  --ctp-crust: #dce0e8;
-  --ctp-text: #4c4f69;
-  --ctp-subtext: #5c5f77;
-  --ctp-surface: #ccd0da;
-  --ctp-border: #bcc0cc;
-  --ctp-accent: #a6d189;
+  --ctp-base: #ffffff;
+  --ctp-base2: #1e1e2e;
+  --ctp-mantle: #f7f7f5;
+  --ctp-crust: #efefed;
+  --ctp-text: #1a1a1a;
+  --ctp-subtext: #4a4a4a;
+  --ctp-surface: #f1f1ef;
+  --ctp-border: #e1e1df;
+  --ctp-accent: #a166f1;
 }
 
 /* Catppuccin Mocha (dark) */
@@ -35,7 +35,7 @@
   --ctp-subtext: #a6adc8;
   --ctp-surface: #313244;
   --ctp-border: #45475a;
-  --ctp-accent: #a6d189;
+  --ctp-accent: #a5cf88;
 }
 
 html,
@@ -43,12 +43,44 @@ body {
   height: 100%;
 }
 
-body {
-  @apply bg-base text-text antialiased;
+html {
+  scroll-behavior: smooth;
 }
 
-a {
-  @apply underline decoration-border underline-offset-4;
+body {
+  background-color: var(--color-base);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+body::selection {
+  background-color: color-mix(in srgb, var(--color-accent), transparent 70%);
+  color: var(--color-base2);
+}
+
+@layer base {
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-base), 0 0 0 4px var(--color-accent);
+  }
+}
+
+a:not(.no-underline) {
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 4px;
+  transition: all 0.2s;
+}
+
+a:not(.no-underline):hover {
+  text-decoration-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+a.no-underline {
+  text-decoration: none;
 }
 
 /* Print defaults */
@@ -56,4 +88,33 @@ a {
   a {
     text-decoration: none !important;
   }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-surface);
+  border-radius: 9999px;
+  border: 2px solid var(--color-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border);
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

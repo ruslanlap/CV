@@ -7,12 +7,13 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function PDFPage({
+export default async function PDFPage({
   searchParams,
 }: {
-  searchParams?: { lang?: string };
+  searchParams: Promise<{ lang?: string }>;
 }) {
-  const lang = searchParams?.lang === "ua" ? "ua" : "en";
+  const { lang: langParam } = await searchParams;
+  const lang = langParam === "ua" ? "ua" : "en";
   const cv = lang === "ua" ? cvUa : cvEn;
 
   return (

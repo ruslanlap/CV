@@ -1,31 +1,33 @@
 "use client";
 
-import { useMemo } from "react";
+import { CV } from "@/types/cv";
 
 interface VCardButtonProps {
-    cv: {
-        name: string;
-        role: string;
-        location: string;
-        contacts: {
-            email: string;
-            phone: string;
-            github: string;
-        };
-    };
+    cv: CV;
     label: string;
+}
+
+function sanitizeVCardField(field: string): string {
+    return field.replace(/\n/g, " ").replace(/;/g, "\\;").replace(/,/g, "\\,").trim();
 }
 
 export default function VCardButton({ cv, label }: VCardButtonProps) {
     const handleDownloadVCard = () => {
+        const name = sanitizeVCardField(cv.name);
+        const role = sanitizeVCardField(cv.role);
+        const email = sanitizeVCardField(cv.contacts.email);
+        const phone = sanitizeVCardField(cv.contacts.phone);
+        const github = sanitizeVCardField(cv.contacts.github);
+        const location = sanitizeVCardField(cv.location);
+
         const vcard = `BEGIN:VCARD
 VERSION:3.0
-FN:${cv.name}
-TITLE:${cv.role}
-EMAIL:${cv.contacts.email}
-TEL:${cv.contacts.phone}
-URL:${cv.contacts.github}
-ADR:;;${cv.location};;;;
+FN:${name}
+TITLE:${role}
+EMAIL:${email}
+TEL:${phone}
+URL:${github}
+ADR:;;${location};;;;
 END:VCARD`;
         const blob = new Blob([vcard], { type: "text/vcard" });
         const url = URL.createObjectURL(blob);
@@ -41,7 +43,7 @@ END:VCARD`;
     return (
         <button
             onClick={handleDownloadVCard}
-            className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-border bg-base px-4 py-2 text-sm font-medium text-text hover:bg-surface/50 transition"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-base px-4 h-9 min-w-[85px] text-sm font-bold text-text hover:bg-surface/50 transition shadow-sm box-border flex-shrink-0"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

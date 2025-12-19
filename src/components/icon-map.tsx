@@ -76,9 +76,19 @@ export function getIcon(name: string): JSX.Element | null {
     if (norm.includes(".net")) return <SiDotnet />;
     if (norm.includes("mkdocs")) return <LuCode />;
     if (norm.includes("python")) return <SiPython />;
+    if (norm.includes("click") || norm.includes("typer") || norm.includes("tui") || norm.includes("terminal")) return <LuTerminal />;
+    if (norm.includes("notion")) return <LuDatabase />;
+    if (norm.includes("design") || norm.includes("material") || norm.includes("wpf") || norm.includes("svg")) return <LuPalette />;
+    if (norm.includes("telegram") || norm.includes("pyrogram") || norm.includes("aiogram")) return <SiTelegram />;
+    if (norm.includes("api")) return <LuGlobe />;
+    if (norm.includes("uv") || norm.includes("pip") || norm.includes("pypi")) return <LuBox />;
     if (norm.includes("context api")) return <LuCpu />;
     if (norm.includes("zustand")) return <LuDatabase />; // Placeholder
     if (norm.includes("rest api")) return <LuGlobe />;
+
+    // Languages (Country flags placeholders)
+    if (norm === "ua" || norm === "ukrainian" || norm === "українська") return <span className="text-[10px] font-bold">UA</span>;
+    if (norm === "en" || norm === "english" || norm === "англійська") return <span className="text-[10px] font-bold">EN</span>;
 
     // Categories (if needed fallback)
     if (norm.includes("frontend")) return <LuCode />;

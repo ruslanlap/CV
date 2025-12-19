@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
+import { CV } from "@/types/cv";
 
 export const dynamic = "force-dynamic";
 
@@ -14,15 +15,17 @@ const ratelimit = new Ratelimit({
 type Lang = "en" | "ua";
 
 function getClientIp(req: NextRequest): string {
-  // Vercel/Proxy usually provides X-Forwarded-For: "client, proxy1, proxy2"
   const xff = req.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0]!.trim();
+  if (xff) {
+    const ips = xff.split(",");
+    return ips[0]?.trim() || "unknown";
+  }
   const realIp = req.headers.get("x-real-ip");
   if (realIp) return realIp.trim();
   return "unknown";
 }
 
-async function loadCv(lang: Lang) {
+async function loadCv(lang: Lang): Promise<CV> {
   if (lang === "ua") {
     const mod = await import("@/data/cv.ua");
     return mod.cv;
@@ -31,7 +34,7 @@ async function loadCv(lang: Lang) {
   return mod.cv;
 }
 
-function buildPrompt(cv: any, lang: Lang, targetRole?: string) {
+function buildPrompt(cv: CV, lang: Lang, targetRole?: string) {
   const roleLine = targetRole?.trim()
     ? (lang === "en" ? `Target role: ${targetRole.trim()}` : `Цільова роль: ${targetRole.trim()}`)
     : (lang === "en" ? "Target role: (not specified)" : "Цільова роль: (не вказано)");

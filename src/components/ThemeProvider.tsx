@@ -14,7 +14,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   useEffect(() => {
     const stored = window.localStorage.getItem("theme") as Theme | null;
     const initial = stored ?? "dark";
-    setTheme(initial);
+    requestAnimationFrame(() => setTheme(initial));
   }, []);
 
   // Apply to <html>

@@ -1,4 +1,6 @@
-export const cv = {
+import { CV } from "@/types/cv";
+
+export const cv: CV = {
   name: "Ruslan Lapiniak",
   role: "Full Stack Developer & DevOps Engineer",
   location: "Lviv, Ukraine",
@@ -61,7 +63,7 @@ export const cv = {
     {
       role: "Full Stack Developer & Open Source Contributor",
       company: "Freelance",
-      period: "September 2016 — Present",
+      period: "September 2020 — Present",
       points: [
         "Developed responsive web applications using React, TypeScript, Next.js, and Tailwind CSS",
         "Created 15+ PowerToys Run plugins (QuickAI, Package Manager, QuickBrain, Video Downloader, etc.) with 1000+ downloads",
@@ -155,5 +157,5 @@ export const cv = {
     "Open Source Contribution",
     "Self-hosting Services",
   ],
-} as const;
+};
 
