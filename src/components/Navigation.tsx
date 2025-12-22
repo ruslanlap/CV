@@ -61,6 +61,7 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                     <li className="ml-1 sm:ml-2 border-l border-border/20 pl-1 sm:pl-2 flex items-center gap-1">
                         <Link
                             href={otherLangHref}
+                            aria-label={lang === "en" ? "Switch to Ukrainian" : "Змінити на англійську"}
                             className="group whitespace-nowrap no-underline rounded-lg px-2.5 py-1.5 text-xs font-medium text-subtext hover:bg-surface/50 hover:text-text transition-all sm:px-3 sm:py-2 flex items-center justify-center gap-0 hover:gap-2"
                         >
                             <span className="shrink-0"><LuLanguages size={18} /></span>

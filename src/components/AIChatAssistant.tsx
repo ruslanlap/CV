@@ -205,6 +205,7 @@ export default function AIChatAssistant({
                     />
                     <button
                         type="submit"
+                        aria-label={lang === "en" ? "Send message" : "Відправити повідомлення"}
                         disabled={loading || !input.trim()}
                         className="rounded-xl bg-accent px-5 py-2.5 text-sm font-medium text-[#1e1e2e] hover:opacity-90 transition disabled:opacity-50 flex items-center gap-2"
                     >

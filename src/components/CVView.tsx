@@ -89,7 +89,7 @@ export default function CVView({
               <SpotlightCard className="rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                   <p className="text-lg font-bold text-accent/90">{job.role}</p>
-                  <p className="text-sm font-medium text-subtext/60">{job.period}</p>
+                  <p className="text-sm font-medium text-subtext/80">{job.period}</p>
                 </div>
                 <p className="text-sm font-semibold text-subtext">{job.company}</p>
                 <ul className="mt-4 space-y-2 text-sm text-text/90">
@@ -146,7 +146,7 @@ export default function CVView({
             <motion.div key={c.name} variants={item} className="h-full">
               <SpotlightCard className="flex h-full flex-col rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
                 <p className="font-bold text-accent/90 leading-tight tracking-tight">{c.name}</p>
-                <div className="mt-auto pt-3 flex items-center justify-between text-xs font-medium text-subtext/60">
+                <div className="mt-auto pt-3 flex items-center justify-between text-xs font-medium text-subtext/80">
                   <span>{c.source}</span>
                   <span>{c.date}</span>
                 </div>
