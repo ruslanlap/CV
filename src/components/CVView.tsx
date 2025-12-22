@@ -1,13 +1,29 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import Section from "@/components/Section";
 import SpotlightCard from "@/components/SpotlightCard";
 import Badge from "@/components/Badge";
 import ProjectCard from "@/components/ProjectCard";
-import GitHubStats from "@/components/GitHubStats";
-import AIChatAssistant from "@/components/AIChatAssistant";
 import { getIcon } from "@/components/icon-map";
+
+// Dynamic imports for below-the-fold components to reduce TBT
+const GitHubStats = dynamic(
+  () => import("@/components/GitHubStats"),
+  {
+    loading: () => <div className="h-32 animate-pulse bg-mantle rounded-2xl" />,
+    ssr: false
+  }
+);
+
+const AIChatAssistant = dynamic(
+  () => import("@/components/AIChatAssistant"),
+  {
+    loading: () => <div className="h-[280px] animate-pulse bg-mantle rounded-2xl" />,
+    ssr: false
+  }
+);
 
 import { CV } from "@/types/cv";
 

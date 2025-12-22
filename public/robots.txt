@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ruslan-lapiniak-cv.vercel.app/sitemap.xml

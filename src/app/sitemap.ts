@@ -1,11 +1,10 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://example.vercel.app";
+  const base = "https://ruslan-lapiniak-cv.vercel.app";
   return [
-    { url: `${base}/en`, lastModified: new Date() },
-    { url: `${base}/ua`, lastModified: new Date() },
-    { url: `${base}/cv/pdf?lang=en`, lastModified: new Date() },
-    { url: `${base}/cv/pdf?lang=ua`, lastModified: new Date() },
+    { url: base, lastModified: new Date(), changeFrequency: 'monthly', priority: 1 },
+    { url: `${base}/ua`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
   ];
 }
+

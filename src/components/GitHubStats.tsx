@@ -2,6 +2,7 @@
 
 import { useTheme } from "@/components/theme-context";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function GitHubStats({ username }: { username: string }) {
   const { theme: currentTheme } = useTheme();
@@ -22,25 +23,27 @@ export default function GitHubStats({ username }: { username: string }) {
   const textColor = isDark ? "cdd6f4" : "1a1a1a";
 
   const stats = `https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
-  const langs = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&hide_border=true&theme=${theme}&title_color=${titleColor}`;
+  const langs = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         key={theme} // Force re-render when theme changes
         src={stats}
         alt={`${username} GitHub stats`}
-        className="w-full rounded-2xl border border-border bg-mantle transition-opacity duration-300"
+        width={495}
+        height={195}
         loading="lazy"
+        className="w-full h-auto rounded-2xl border border-border bg-mantle transition-opacity duration-300"
       />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         key={`${theme}-lang`}
         src={langs}
         alt={`${username} top languages`}
-        className="w-full rounded-2xl border border-border bg-mantle transition-opacity duration-300"
+        width={400}
+        height={195}
         loading="lazy"
+        className="w-full h-auto rounded-2xl border border-border bg-mantle transition-opacity duration-300"
       />
     </div>
   );

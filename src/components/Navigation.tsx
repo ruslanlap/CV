@@ -45,6 +45,7 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                         <li key={section.id}>
                             <a
                                 href={`#${section.id}`}
+                                aria-label={lang === "en" ? section.en : section.ua}
                                 className={`group whitespace-nowrap no-underline rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all sm:px-3 sm:py-2 flex items-center justify-center gap-0 hover:gap-2 ${activeSegment === section.id
                                     ? "bg-accent/10 text-accent"
                                     : "text-subtext hover:bg-surface/50 hover:text-text"
