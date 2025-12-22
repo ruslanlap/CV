@@ -8,7 +8,7 @@ export const cv: CV = {
     email: "ruslan.lapinyak@gmail.com",
     phone: "+38 09 77 33 98 55",
     telegram: "@ruslan_ls",
-    github: "https://github.com/ruslanlap",
+    github: "ruslanlap",
     linkedin: "LinkedIn",
   },
   summary:
@@ -44,6 +44,7 @@ export const cv: CV = {
       "Docker",
       "MkDocs",
       "CI/CD",
+      "MCP (Model Context Protocol)",
     ],
     "Design & UI/UX": [
       "Figma",
@@ -68,7 +69,8 @@ export const cv: CV = {
         "Developed responsive web applications using React, TypeScript, Next.js, and Tailwind CSS",
         "Created 15+ PowerToys Run plugins (QuickAI, Package Manager, QuickBrain, Video Downloader, etc.) with 1000+ downloads",
         "Developed and maintained complex Telegram bots using Python (Aiogram, Pyrogram) and Node.js",
-        "Built Python CLI tools: GH-Pulse (GitHub analytics), EasyEnv (environment management), and MkDocs themes",
+        "Built Python CLI tools: GH-Pulse (GitHub analytics), EasyEnv (environment management), Emoji Styler, and MkDocs themes",
+        "Developed MCP (Model Context Protocol) servers for AI-powered performance analysis (PageSpeed Insights MCP)",
         "Developed cross-platform desktop applications using Python (PyQt6) with Telegram and Notion API integrations",
         "Created SVG Extractor Pro browser extension for Firefox and Chrome with 100+ users",
         "Implemented CI/CD pipelines using GitHub Actions for automated testing and deployments",
@@ -117,6 +119,18 @@ export const cv: CV = {
       desc: "Browser extension to find, extract, and download SVG images from any web page.",
       link: "https://github.com/ruslanlap/SVG-Extractor-Firefox-and-Chrome-add-on",
       stack: ["JavaScript", "WebExtensions API", "HTML/CSS"],
+    },
+    {
+      name: "PageSpeed Insights MCP",
+      desc: "MCP server for Google PageSpeed Insights API that enables performance analysis directly through AI assistants.",
+      link: "https://github.com/ruslanlap/pagespeed-insights-mcp",
+      stack: ["TypeScript", "Node.js", "MCP SDK", "Google API"],
+    },
+    {
+      name: "Emoji Styler",
+      desc: "Transform boring text into fun emoji styles! Make your text stand out with various thematic styles. Web & CLI.",
+      link: "https://github.com/ruslanlap/emoji-styler",
+      stack: ["Python", "Click", "Vercel", "Tailwind CSS"],
     },
     {
       name: "MkDocs Catppuccin Theme",

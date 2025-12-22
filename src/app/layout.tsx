@@ -5,7 +5,7 @@ export const metadata = {
   title: "Ruslan Lapiniak — Full Stack & DevOps Engineer",
   description: "Senior Full Stack Developer & DevOps Engineer. Expert in React, Next.js, Python, and Automation. Creator of popular open-source tools.",
   keywords: ["Ruslan Lapiniak", "Full Stack", "DevOps", "React", "Next.js", "Python", "CV", "Resume", "Lviv"],
-  authors: [{ name: "Ruslan Lapiniak", url: "https://github.com/ruslanlap" }],
+  authors: [{ name: "Ruslan Lapiniak", url: "ruslanlap" }],
   creator: "Ruslan Lapiniak",
   metadataBase: process.env.VERCEL_URL
     ? new URL(`https://${process.env.VERCEL_URL}`)

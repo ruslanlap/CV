@@ -8,7 +8,7 @@ export const cv: CV = {
     email: "ruslan.lapinyak@gmail.com",
     phone: "+38 09 77 33 98 55",
     telegram: "@ruslan_ls",
-    github: "https://github.com/ruslanlap",
+    github: "ruslanlap",
     linkedin: "LinkedIn",
   },
   summary:
@@ -44,6 +44,7 @@ export const cv: CV = {
       "Docker",
       "MkDocs",
       "CI/CD",
+      "MCP (Model Context Protocol)",
     ],
     "Дизайн & UI/UX": [
       "Figma",
@@ -68,7 +69,8 @@ export const cv: CV = {
         "Розробляв адаптивні вебзастосунки на React, TypeScript, Next.js та Tailwind CSS",
         "Створив 15+ PowerToys Run плагінів (QuickAI, Package Manager, QuickBrain, Video Downloader тощо) з 1000+ завантажень",
         "Розробляв та підтримував складні Telegram-боти з використанням Python (Aiogram, Pyrogram) та Node.js",
-        "Розробів Python CLI інструменти: GH-Pulse (аналітика GitHub), EasyEnv (менеджмент середовищ), MkDocs теми",
+        "Розробляв Python CLI інструменти: GH-Pulse (GitHub аналітика), EasyEnv (менеджмент середовищ), Emoji Styler, MkDocs теми",
+        "Розробив MCP (Model Context Protocol) сервери для AI-аналізу продуктивності (PageSpeed Insights MCP)",
         "Створив кросплатформні десктопні додатки на Python (PyQt6) з інтеграцією Telegram та Notion API",
         "Розробив браузерне розширення SVG Extractor Pro для Firefox та Chrome зі 100+ користувачами",
         "Налаштовував CI/CD пайплайни через GitHub Actions для автоматизованого тестування та деплою",
@@ -117,6 +119,18 @@ export const cv: CV = {
       desc: "Браузерне розширення для пошуку, витягування та завантаження SVG зображень з будь-яких вебсторінок.",
       link: "https://github.com/ruslanlap/SVG-Extractor-Firefox-and-Chrome-add-on",
       stack: ["JavaScript", "WebExtensions API", "HTML/CSS"],
+    },
+    {
+      name: "PageSpeed Insights MCP",
+      desc: "MCP сервер для Google PageSpeed Insights API, що дозволяє аналізувати продуктивність вебсторінок через ШІ асистентів.",
+      link: "https://github.com/ruslanlap/pagespeed-insights-mcp",
+      stack: ["TypeScript", "Node.js", "MCP SDK", "Google API"],
+    },
+    {
+      name: "Emoji Styler",
+      desc: "Перетворюйте звичайний текст на веселі емодзі-стилі! Зробіть свій текст особливим за допомогою тематичних стилів. Web та CLI.",
+      link: "https://github.com/ruslanlap/emoji-styler",
+      stack: ["Python", "Click", "Vercel", "Tailwind CSS"],
     },
     {
       name: "MkDocs Catppuccin Theme",
