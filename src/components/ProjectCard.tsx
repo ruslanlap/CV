@@ -1,5 +1,6 @@
 import Badge from "./Badge";
 import { getIcon } from "./icon-map";
+import SpotlightCard from "./SpotlightCard";
 
 export default function ProjectCard({
   name,
@@ -15,10 +16,12 @@ export default function ProjectCard({
   featured?: boolean;
 }) {
   return (
-    <div className={`group relative flex h-full flex-col rounded-2xl border transition-all p-5 bg-mantle
+    <SpotlightCard
+      className={`group flex h-full flex-col rounded-2xl border transition-all p-5 bg-mantle
       ${featured
-        ? 'border-accent/60 dark:shadow-lg dark:shadow-accent/10'
-        : 'border-border hover:border-accent/40 dark:hover:shadow-lg dark:hover:shadow-accent/5'}`}>
+          ? 'border-accent/60 dark:shadow-lg dark:shadow-accent/10'
+          : 'border-border hover:border-accent/40 dark:hover:shadow-lg dark:hover:shadow-accent/5'}`}
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <a
@@ -46,6 +49,6 @@ export default function ProjectCard({
           ))}
         </div>
       ) : null}
-    </div>
+    </SpotlightCard>
   );
 }

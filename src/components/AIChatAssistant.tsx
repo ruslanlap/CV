@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useRef, useEffect } from "react";
+import SpotlightCard from "@/components/SpotlightCard";
 
 type Lang = "en" | "ua";
 
@@ -108,7 +109,7 @@ export default function AIChatAssistant({
                 : `Ліміт на сьогодні: ${remaining}/5`;
 
     return (
-        <div className="rounded-2xl border border-border bg-mantle overflow-hidden">
+        <SpotlightCard className="rounded-2xl border border-border bg-mantle overflow-hidden">
             {/* Chat Header */}
             <div className="bg-gradient-to-r from-accent/20 to-accent/5 px-5 py-3 border-b border-border">
                 <div className="flex items-center gap-2">
@@ -225,6 +226,7 @@ export default function AIChatAssistant({
                 </form>
                 {hint && <p className="mt-2 text-xs text-subtext text-center">{hint}</p>}
             </div>
-        </div>
+        </SpotlightCard>
     );
+
 }
