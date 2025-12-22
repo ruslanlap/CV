@@ -51,6 +51,7 @@ export default function Header({
           className="rounded-full border-2 border-border object-cover aspect-square dark:shadow-sm transition-transform group-hover:scale-[1.03]"
           fill
           priority
+          sizes="(max-width: 640px) 80px, 128px"
         />
       </button>
       <div className="flex flex-col">
