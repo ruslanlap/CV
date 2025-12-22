@@ -16,10 +16,9 @@ export const metadata = {
   creator: "Ruslan Lapiniak",
   metadataBase: new URL("https://ruslan-lapiniak-cv.vercel.app"),
   alternates: {
-    canonical: "/",
     languages: {
-      'en': '/',
-      'uk': '/ua',
+      'en-US': '/en',
+      'uk-UA': '/ua',
     },
   },
   robots: {

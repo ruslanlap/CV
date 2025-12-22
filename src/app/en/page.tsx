@@ -7,6 +7,9 @@ import { cv } from "@/data/cv.en";
 export const metadata = {
   title: "Ruslan Lapiniak — CV (EN)",
   description: "Frontend Developer — React, TypeScript, UI/UX, DevTools",
+  alternates: {
+    canonical: "/en",
+  },
 };
 
 export default function Page() {
