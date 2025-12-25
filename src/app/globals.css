@@ -83,10 +83,90 @@ a.no-underline {
   text-decoration: none;
 }
 
-/* Print defaults */
+/* Enhanced micro-interactions */
+@keyframes subtle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(165, 102, 241, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(165, 102, 241, 0); }
+}
+
+.dark @keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(165, 207, 136, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(165, 207, 136, 0); }
+}
+
+.animate-subtle-bounce {
+  animation: subtle-bounce 0.5s ease-in-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Print optimizations */
 @media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  @page {
+    margin: 0.5in;
+    size: A4;
+  }
+
+  body {
+    background: white !important;
+    color: #1a1a1a !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
   a {
     text-decoration: none !important;
+    color: #1a1a1a !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  nav,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  header {
+    page-break-after: avoid;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+    color: #1a1a1a !important;
+  }
+
+  .spotlight-card,
+  .card {
+    border: 1px solid #e1e1df !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
   }
 }
 

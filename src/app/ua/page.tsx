@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import CVView from "@/components/CVView";
 import Navigation from "@/components/Navigation";
 import VCardButton from "@/components/VCardButton";
+import EasterEgg from "@/components/EasterEgg";
 import { cv } from "@/data/cv.ua";
 
 export const metadata = {
@@ -12,9 +13,42 @@ export const metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: cv.name,
+  jobTitle: cv.role,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: cv.location,
+  },
+  email: cv.contacts.email,
+  telephone: cv.contacts.phone,
+  url: "https://ruslan-cv.vercel.app",
+  sameAs: [
+    `https://github.com/${cv.contacts.github}`,
+    `https://t.me/${cv.contacts.telegram.replace("@", "")}`,
+  ],
+  description: cv.summary,
+  worksFor: {
+    "@type": "Organization",
+    name: "Freelance",
+  },
+  knowsAbout: Object.values(cv.skills).flat(),
+  alumniOf: cv.courses.map((course) => ({
+    "@type": "EducationalOrganization",
+    name: course.source,
+  })),
+};
+
 export default function Page() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-10">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="mx-auto max-w-4xl px-6 py-10">
       <Header
         lang="ua"
         otherLangHref="/en"
@@ -49,6 +83,8 @@ export default function Page() {
       </Header>
       <Navigation lang="ua" otherLangHref="/en" />
       <CVView cv={cv} lang="ua" />
+      <EasterEgg />
     </div>
+    </>
   );
 }

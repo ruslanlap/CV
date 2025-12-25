@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Section from "@/components/Section";
 import SpotlightCard from "@/components/SpotlightCard";
 import Badge from "@/components/Badge";
+import CopyBadge from "@/components/CopyBadge";
 import ProjectCard from "@/components/ProjectCard";
 import { getIcon } from "@/components/icon-map";
 
@@ -57,6 +58,7 @@ export default function CVView({
 
   return (
     <motion.main
+      id="main-content"
       className="pb-12 pt-4"
       variants={container}
       initial="hidden"
@@ -70,15 +72,27 @@ export default function CVView({
 
         <div className="mt-5 flex flex-wrap gap-2">
           <Badge icon={getIcon("location")}>{cv.location}</Badge>
-          <a href={`mailto:${cv.contacts.email}`} className="no-underline">
-            <Badge icon={getIcon("email")}>{cv.contacts.email}</Badge>
-          </a>
-          <a href={`https://t.me/${cv.contacts.telegram.replace("@", "")}`} target="_blank" rel="noreferrer" className="no-underline">
-            <Badge icon={getIcon("telegram")}>{cv.contacts.telegram}</Badge>
-          </a>
-          <a href={`https://github.com/${cv.contacts.github}`} target="_blank" rel="noreferrer" className="no-underline">
-            <Badge icon={getIcon("github")}>{`GitHub: ${cv.contacts.github}`}</Badge>
-          </a>
+          <CopyBadge
+            icon={getIcon("email")}
+            copyText={cv.contacts.email}
+            href={`mailto:${cv.contacts.email}`}
+          >
+            {cv.contacts.email}
+          </CopyBadge>
+          <CopyBadge
+            icon={getIcon("telegram")}
+            copyText={cv.contacts.telegram}
+            href={`https://t.me/${cv.contacts.telegram.replace("@", "")}`}
+          >
+            {cv.contacts.telegram}
+          </CopyBadge>
+          <CopyBadge
+            icon={getIcon("github")}
+            copyText={cv.contacts.github}
+            href={`https://github.com/${cv.contacts.github}`}
+          >
+            {`GitHub: ${cv.contacts.github}`}
+          </CopyBadge>
         </div>
       </Section>
 

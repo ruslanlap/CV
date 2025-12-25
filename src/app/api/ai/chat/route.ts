@@ -14,6 +14,22 @@ const ratelimit = new Ratelimit({
 
 type Lang = "en" | "ua";
 
+interface FireworksMessage {
+    role: "system" | "user" | "assistant";
+    content: string;
+}
+
+interface FireworksChoice {
+    message?: {
+        content?: string;
+    };
+    text?: string;
+}
+
+interface FireworksResponse {
+    choices?: FireworksChoice[];
+}
+
 function getClientIp(req: NextRequest): string {
     const xff = req.headers.get("x-forwarded-for");
     if (xff) {
@@ -56,23 +72,23 @@ function buildCvContext(cv: CV, lang: Lang) {
 
     const skillsEntries = Object.entries(cv.skills ?? {});
     const skillsText = skillsEntries
-        .map(([group, items]: [string, any]) => `${group}: ${(items as string[]).join(", ")}`)
+        .map(([group, items]) => `${group}: ${(items as string[]).join(", ")}`)
         .join("\n");
 
     const experienceText = (cv.experience ?? [])
-        .map((e: any) => `${e.role} @ ${e.company} (${e.period}):\n${(e.points ?? []).map((p: string) => `  • ${p}`).join("\n")}`)
+        .map((e) => `${e.role} @ ${e.company} (${e.period}):\n${(e.points ?? []).map((p) => `  • ${p}`).join("\n")}`)
         .join("\n\n");
 
     const projectsText = (cv.projects ?? [])
-        .map((p: any) => `${p.name}: ${p.desc} [Stack: ${(p.stack ?? []).join(", ")}] ${p.link}`)
+        .map((p) => `${p.name}: ${p.desc} [Stack: ${(p.stack ?? []).join(", ")}] ${p.link}`)
         .join("\n");
 
     const coursesText = (cv.courses ?? [])
-        .map((c: any) => `${c.name} (${c.source}, ${c.date})`)
+        .map((c) => `${c.name} (${c.source}, ${c.date})`)
         .join("\n");
 
     const languagesText = (cv.languages ?? [])
-        .map((l: any) => `${l.name}: ${l.level}`)
+        .map((l) => `${l.name}: ${l.level}`)
         .join(", ");
 
     return `
@@ -240,7 +256,7 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const json = (await fwRes.json()) as any;
+    const json = (await fwRes.json()) as FireworksResponse;
     const content =
         json?.choices?.[0]?.message?.content ??
         json?.choices?.[0]?.text ??

@@ -1,6 +1,6 @@
 "use client";
 
-import { LuUser, LuBriefcase, LuWrench, LuRocket, LuBot, LuLanguages } from "react-icons/lu";
+import { LuUser, LuBriefcase, LuWrench, LuRocket, LuBot, LuLanguages, LuMenu, LuX } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
@@ -15,6 +15,7 @@ const SECTIONS = [
 
 export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua", otherLangHref: string }) {
     const [activeSegment, setActiveSegment] = useState("");
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const otherLabel = lang === "en" ? "UA" : "EN";
 
     useEffect(() => {
@@ -26,7 +27,10 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                     }
                 });
             },
-            { threshold: 0.5 }
+            {
+                threshold: 0.5,
+                rootMargin: "-80px 0px -40% 0px"
+            }
         );
 
         SECTIONS.forEach((section) => {
@@ -37,14 +41,32 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
         return () => observer.disconnect();
     }, []);
 
+    const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        e.preventDefault();
+        const element = document.getElementById(id);
+        if (element) {
+            const navHeight = 60;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+            setIsMenuOpen(false);
+        }
+    };
+
     return (
         <nav className="sticky top-0 z-40 -mx-0 mb-4 bg-base/95 px-6 py-3 backdrop-blur-md border-b border-border">
-            <div className="flex items-center justify-center gap-2 overflow-x-auto no-scrollbar">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center justify-center gap-2 overflow-x-auto no-scrollbar">
                 <ul className="flex items-center justify-center gap-1 sm:gap-10">
                     {SECTIONS.map((section) => (
                         <li key={section.id}>
                             <a
                                 href={`#${section.id}`}
+                                onClick={(e) => handleSmoothScroll(e, section.id)}
                                 aria-label={lang === "en" ? section.en : section.ua}
                                 className={`group whitespace-nowrap no-underline rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all sm:px-3 sm:py-2 flex items-center justify-center gap-0 hover:gap-2 ${activeSegment === section.id
                                     ? "bg-accent/10 text-accent"
@@ -73,6 +95,51 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                     </li>
                 </ul>
             </div>
+
+            {/* Mobile Navigation */}
+            <div className="md:hidden flex items-center justify-between">
+                <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="p-2 rounded-lg text-text hover:bg-surface/50 transition-colors"
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                >
+                    {isMenuOpen ? <LuX size={24} /> : <LuMenu size={24} />}
+                </button>
+                <div className="flex items-center gap-2">
+                    <Link
+                        href={otherLangHref}
+                        aria-label={lang === "en" ? "Switch to Ukrainian" : "Змінити на англійську"}
+                        className="p-2 rounded-lg text-subtext hover:bg-surface/50 hover:text-text transition-colors"
+                    >
+                        <LuLanguages size={20} />
+                    </Link>
+                    <ThemeToggle variant="nav" />
+                </div>
+            </div>
+
+            {/* Mobile Menu Dropdown */}
+            {isMenuOpen && (
+                <div className="md:hidden mt-3 pb-2 animate-in slide-in-from-top-2 duration-200">
+                    <ul className="flex flex-col gap-1">
+                        {SECTIONS.map((section) => (
+                            <li key={section.id}>
+                                <a
+                                    href={`#${section.id}`}
+                                    onClick={(e) => handleSmoothScroll(e, section.id)}
+                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+                                        activeSegment === section.id
+                                            ? "bg-accent/10 text-accent font-medium"
+                                            : "text-subtext hover:bg-surface/50 hover:text-text"
+                                    }`}
+                                >
+                                    {section.icon}
+                                    <span>{lang === "en" ? section.en : section.ua}</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </nav>
     );
 }
