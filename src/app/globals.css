@@ -90,13 +90,8 @@ a.no-underline {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(165, 102, 241, 0.2); }
-  50% { box-shadow: 0 0 0 4px rgba(165, 102, 241, 0); }
-}
-
-.dark @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(165, 207, 136, 0.2); }
-  50% { box-shadow: 0 0 0 4px rgba(165, 207, 136, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent), transparent 80%); }
+  50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent), transparent 100%); }
 }
 
 .animate-subtle-bounce {
