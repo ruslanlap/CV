@@ -4,9 +4,15 @@ import { useTheme } from "@/components/theme-context";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+// Use your own Vercel deployment of github-readme-stats
+// Deploy your own: https://github.com/anuraghazra/github-readme-stats#deploy-on-your-own
+const STATS_BASE_URL = process.env.NEXT_PUBLIC_GITHUB_STATS_URL || "https://github-readme-stats.vercel.app";
+
 export default function GitHubStats({ username }: { username: string }) {
   const { theme: currentTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [statsError, setStatsError] = useState(false);
+  const [langsError, setLangsError] = useState(false);
 
   useEffect(() => {
     requestAnimationFrame(() => setMounted(true));
@@ -22,29 +28,49 @@ export default function GitHubStats({ username }: { username: string }) {
   const iconColor = titleColor;
   const textColor = isDark ? "cdd6f4" : "1a1a1a";
 
-  const stats = `https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
-  const langs = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
+  const stats = `${STATS_BASE_URL}/api?username=${username}&show_icons=true&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
+  const langs = `${STATS_BASE_URL}/api/top-langs/?username=${username}&layout=compact&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}&langs_count=5&card_width=400`;
+
+  const ErrorFallback = ({ message }: { message: string }) => (
+    <div className="w-full h-[195px] rounded-2xl border border-border bg-mantle flex items-center justify-center p-6">
+      <div className="text-center text-subtext0">
+        <p className="text-sm">{message}</p>
+        <p className="text-xs mt-2 opacity-70">Service temporarily unavailable</p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <Image
-        key={theme} // Force re-render when theme changes
-        src={stats}
-        alt={`${username} GitHub stats`}
-        width={495}
-        height={195}
-        loading="lazy"
-        className="w-full h-auto rounded-2xl border border-border bg-mantle transition-opacity duration-300"
-      />
-      <Image
-        key={`${theme}-lang`}
-        src={langs}
-        alt={`${username} top languages`}
-        width={400}
-        height={195}
-        loading="lazy"
-        className="w-full h-auto rounded-2xl border border-border bg-mantle transition-opacity duration-300"
-      />
+      {!statsError ? (
+        <Image
+          key={theme}
+          src={stats}
+          alt={`${username} GitHub stats`}
+          width={495}
+          height={195}
+          loading="lazy"
+          className="w-full h-auto rounded-2xl border border-border bg-mantle transition-opacity duration-300"
+          onError={() => setStatsError(true)}
+        />
+      ) : (
+        <ErrorFallback message="GitHub stats unavailable" />
+      )}
+
+      {!langsError ? (
+        <Image
+          key={`${theme}-lang`}
+          src={langs}
+          alt={`${username} top languages`}
+          width={400}
+          height={195}
+          loading="lazy"
+          className="w-full h-auto rounded-2xl border border-border bg-mantle transition-opacity duration-300"
+          onError={() => setLangsError(true)}
+        />
+      ) : (
+        <ErrorFallback message="Language stats unavailable" />
+      )}
     </div>
   );
 }

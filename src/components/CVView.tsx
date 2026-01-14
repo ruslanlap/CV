@@ -26,6 +26,14 @@ const AIChatAssistant = dynamic(
   }
 );
 
+const ContactForm = dynamic(
+  () => import("@/components/ContactForm"),
+  {
+    loading: () => <div className="h-[400px] animate-pulse bg-mantle rounded-2xl" />,
+    ssr: false
+  }
+);
+
 import { CV } from "@/types/cv";
 
 import VCardButton from "@/components/VCardButton";
@@ -152,6 +160,10 @@ export default function CVView({
 
       <Section id="ai-assistant" title={lang === "en" ? "Ask My CV" : "Запитай про CV"}>
         <AIChatAssistant lang={lang} />
+      </Section>
+
+      <Section id="contact" title={lang === "en" ? "Get in Touch" : "Зв'яжіться зі мною"}>
+        <ContactForm lang={lang} />
       </Section>
 
       <Section title={lang === "en" ? "Education & Courses" : "Освіта та Курси"}>

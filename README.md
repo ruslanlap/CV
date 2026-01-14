@@ -154,3 +154,83 @@ const ratelimit = new Ratelimit({
 });
 ```
 
+
+
+## New Features (CV Enhancements)
+
+### 📧 Contact Form
+- Direct messaging through the website
+- Real-time form validation with Zod
+- Spam protection with rate limiting (3 requests/hour per IP)
+- Email integration via Resend API
+- Bilingual support (EN/UA)
+
+**Required Environment Variables:**
+```env
+RESEND_API_KEY=your_resend_api_key
+CONTACT_EMAIL_TO=your_email@example.com
+```
+
+### 📄 Enhanced PDF Export
+- Professional PDF generation with @react-pdf/renderer
+- Proper typography and spacing
+- Clickable links in PDF
+- Print-optimized colors
+- Automatic download with descriptive filename
+- Bilingual support (EN/UA)
+
+### 🎨 Scroll-Triggered Animations
+- Smooth fade-in animations on scroll
+- Staggered animations for visual flow
+- Respects `prefers-reduced-motion` accessibility setting
+- 60fps performance on modern devices
+- Powered by Framer Motion
+
+### Setup Instructions
+
+1. **Install dependencies** (already done if you ran `npm install`):
+```bash
+npm install @react-pdf/renderer resend zod @upstash/redis
+npm install -D fast-check @types/react-pdf
+```
+
+2. **Configure Resend** (for contact form):
+   - Sign up at [resend.com](https://resend.com)
+   - Get your API key from [API Keys page](https://resend.com/api-keys)
+   - Add to `.env.local`:
+     ```env
+     RESEND_API_KEY=re_xxxxxxxxxxxxx
+     CONTACT_EMAIL_TO=your_email@example.com
+     ```
+
+3. **Configure Upstash Redis** (for rate limiting):
+   - Sign up at [upstash.com](https://upstash.com)
+   - Create a Redis database
+   - Get credentials from console
+   - Add to `.env.local`:
+     ```env
+     UPSTASH_REDIS_REST_URL=https://xxxxx.upstash.io
+     UPSTASH_REDIS_REST_TOKEN=xxxxxxxxxxxxx
+     ```
+
+4. **Deploy environment variables to Vercel**:
+```bash
+vercel env add RESEND_API_KEY
+vercel env add CONTACT_EMAIL_TO
+vercel env add UPSTASH_REDIS_REST_URL
+vercel env add UPSTASH_REDIS_REST_TOKEN
+```
+
+### Testing
+
+Run property-based tests:
+```bash
+npm test
+```
+
+Run specific test suites:
+```bash
+npm test -- contact-form
+npm test -- pdf-export
+npm test -- animations
+```

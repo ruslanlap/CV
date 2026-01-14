@@ -1,6 +1,6 @@
 "use client";
 
-import { LuUser, LuBriefcase, LuWrench, LuRocket, LuBot, LuLanguages, LuMenu, LuX } from "react-icons/lu";
+import { LuUser, LuBriefcase, LuWrench, LuRocket, LuBot, LuMail, LuLanguages, LuMenu, LuX } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
@@ -11,6 +11,7 @@ const SECTIONS = [
     { id: "skills", en: "Skills", ua: "Навички", icon: <LuWrench size={18} /> },
     { id: "projects", en: "Projects", ua: "Проєкти", icon: <LuRocket size={18} /> },
     { id: "ai-assistant", en: "AI Assistant", ua: "AI Помічник", icon: <LuBot size={18} /> },
+    { id: "contact", en: "Contact", ua: "Контакт", icon: <LuMail size={18} /> },
 ];
 
 export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua", otherLangHref: string }) {
@@ -126,11 +127,10 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                                 <a
                                     href={`#${section.id}`}
                                     onClick={(e) => handleSmoothScroll(e, section.id)}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
-                                        activeSegment === section.id
+                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeSegment === section.id
                                             ? "bg-accent/10 text-accent font-medium"
                                             : "text-subtext hover:bg-surface/50 hover:text-text"
-                                    }`}
+                                        }`}
                                 >
                                     {section.icon}
                                     <span>{lang === "en" ? section.en : section.ua}</span>

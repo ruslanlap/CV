@@ -10,6 +10,11 @@ const nextConfig = {
                 hostname: 'github-readme-stats.vercel.app',
                 pathname: '/api/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'github-stats-deploy-theta.vercel.app',
+                pathname: '/api/**',
+            },
         ],
         dangerouslyAllowSVG: true,
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -21,7 +26,7 @@ const nextConfig = {
                 headers: [
                     {
                         key: "Content-Security-Policy",
-                        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://github-readme-stats.vercel.app; font-src 'self' data:; connect-src 'self' https://api.fireworks.ai; frame-ancestors 'none';",
+                        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://github-readme-stats.vercel.app https://github-stats-deploy-theta.vercel.app; font-src 'self' data:; connect-src 'self' https://api.fireworks.ai; frame-ancestors 'none';",
                     },
                     {
                         key: "X-Frame-Options",
