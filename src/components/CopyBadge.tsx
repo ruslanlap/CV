@@ -32,12 +32,25 @@ export default function CopyBadge({
   };
 
   const badgeContent = (
-    <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-subtext transition-all group-hover:border-accent/30 group-hover:bg-surface/80 group-hover:text-text">
-      {icon && <span className="shrink-0">{icon}</span>}
-      <span>{children}</span>
+    <span className="relative inline-flex items-center gap-2 rounded-xl border border-border/60 bg-gradient-to-br from-surface/80 to-mantle/60 px-4 py-2 text-sm font-medium text-subtext shadow-sm backdrop-blur-sm transition-all duration-300 group-hover:border-accent/50 group-hover:shadow-md group-hover:shadow-accent/10 group-hover:text-text group-hover:-translate-y-0.5 dark:from-surface/40 dark:to-mantle/40">
+      {icon && (
+        <span className="shrink-0 text-accent/70 transition-colors group-hover:text-accent">
+          {icon}
+        </span>
+      )}
+      <span className="font-medium">{children}</span>
       {copyText && (
-        <span className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-          {copied ? <LuCheck size={14} className="text-green" /> : <LuCopy size={14} />}
+        <span className="shrink-0 ml-1 opacity-0 group-hover:opacity-100 transition-all duration-200 transform group-hover:translate-x-0 -translate-x-1">
+          {copied ? (
+            <LuCheck size={14} className="text-green" />
+          ) : (
+            <LuCopy size={14} className="text-subtext/60" />
+          )}
+        </span>
+      )}
+      {copied && (
+        <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs font-medium text-green bg-surface border border-green/20 rounded-md shadow-lg animate-in fade-in slide-in-from-bottom-2 duration-200">
+          Copied!
         </span>
       )}
     </span>
@@ -70,5 +83,5 @@ export default function CopyBadge({
     );
   }
 
-  return <span className="inline-block">{badgeContent}</span>;
+  return <span className="group inline-block">{badgeContent}</span>;
 }

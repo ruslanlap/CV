@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 
 export default function Badge({ children, icon }: { children: ReactNode; icon?: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-border/50 bg-base/50 px-2.5 py-0.5 text-[11px] font-medium text-subtext transition-all hover:bg-surface/30 hover:text-text hover:border-accent/30 dark:shadow-sm">
-      {icon && <span className="mr-1.5 opacity-60 flex items-center" aria-hidden="true">{icon}</span>}
+    <span className="inline-flex items-center gap-2 rounded-xl border border-border/60 bg-gradient-to-br from-surface/80 to-mantle/60 px-4 py-2 text-sm font-medium text-subtext shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-accent/50 hover:shadow-md hover:shadow-accent/10 hover:text-text hover:-translate-y-0.5 dark:from-surface/40 dark:to-mantle/40">
+      {icon && <span className="text-accent/70">{icon}</span>}
       {children}
     </span>
   );
