@@ -56,7 +56,7 @@ export default function CVView({
       className="pb-12 pt-4"
       variants={staggerContainer}
       initial="hidden"
-      animate="show"
+      animate="visible"
     >
       <Section
         id="about"
