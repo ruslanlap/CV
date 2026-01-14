@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
                     success: false,
                     error: "validation_error",
                     message: "Invalid form data",
-                    details: validationResult.error.errors,
+                    details: validationResult.error.issues,
                 },
                 { status: 400 }
             );
