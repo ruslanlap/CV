@@ -234,3 +234,37 @@ npm test -- contact-form
 npm test -- pdf-export
 npm test -- animations
 ```
+
+### Redis Monitoring & Debugging
+
+Monitor rate limiting and Redis keys in real-time:
+
+```bash
+# Basic connection test
+node test-redis.js
+
+# Rate limiting test (simulates 5 requests)
+node test-rate-limit.js
+
+# Advanced monitoring with detailed info
+node monitor-redis.js
+
+# Watch mode (updates every 3 seconds)
+node monitor-redis.js --watch
+
+# Simulate contact form submissions
+node simulate-contact-form.js
+
+# Clean up test keys
+node cleanup-redis.js
+```
+
+**Why is my Redis database empty?** 🤔
+
+This is normal! Rate limit keys:
+- Are created only when endpoints are accessed
+- Have TTL (Time To Live) and expire automatically
+- Use prefixes like `ratelimit:contact:*` and `rl:ai-*`
+
+📖 **Full documentation**: [REDIS_MONITORING.md](./REDIS_MONITORING.md)
+
