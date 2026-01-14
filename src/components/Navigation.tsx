@@ -2,8 +2,10 @@
 
 import { LuUser, LuBriefcase, LuWrench, LuRocket, LuBot, LuMail, LuLanguages, LuMenu, LuX } from "react-icons/lu";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import { slideDown } from "@/lib/animation-variants";
 
 const SECTIONS = [
     { id: "about", en: "About", ua: "Про мене", icon: <LuUser size={18} /> },
@@ -59,7 +61,12 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
     };
 
     return (
-        <nav className="sticky top-0 z-40 -mx-0 mb-4 bg-base/95 px-6 py-3 backdrop-blur-md border-b border-border">
+        <motion.nav
+            className="sticky top-0 z-40 -mx-0 mb-4 bg-base/95 px-6 py-3 backdrop-blur-md border-b border-border"
+            initial="hidden"
+            animate="visible"
+            variants={slideDown}
+        >
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center justify-center gap-2 overflow-x-auto no-scrollbar">
                 <ul className="flex items-center justify-center gap-1 sm:gap-10">
@@ -128,8 +135,8 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                                     href={`#${section.id}`}
                                     onClick={(e) => handleSmoothScroll(e, section.id)}
                                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeSegment === section.id
-                                            ? "bg-accent/10 text-accent font-medium"
-                                            : "text-subtext hover:bg-surface/50 hover:text-text"
+                                        ? "bg-accent/10 text-accent font-medium"
+                                        : "text-subtext hover:bg-surface/50 hover:text-text"
                                         }`}
                                 >
                                     {section.icon}
@@ -140,6 +147,6 @@ export default function Navigation({ lang, otherLangHref }: { lang: "en" | "ua",
                     </ul>
                 </div>
             )}
-        </nav>
+        </motion.nav>
     );
 }

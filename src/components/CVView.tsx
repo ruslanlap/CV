@@ -35,6 +35,7 @@ const ContactForm = dynamic(
 );
 
 import { CV } from "@/types/cv";
+import { staggerContainer, fadeInUp } from "@/lib/animation-variants";
 
 import VCardButton from "@/components/VCardButton";
 
@@ -49,26 +50,11 @@ export default function CVView({
 }) {
   const pdfHref = `/cv/pdf?lang=${lang}`;
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  };
-
   return (
     <motion.main
       id="main-content"
       className="pb-12 pt-4"
-      variants={container}
+      variants={staggerContainer}
       initial="hidden"
       animate="show"
     >
@@ -107,7 +93,7 @@ export default function CVView({
       <Section id="experience" title={lang === "en" ? "Experience" : "Досвід"}>
         <div className="space-y-4">
           {cv.experience.map((job) => (
-            <motion.div key={`${job.company}-${job.role}`} variants={item}>
+            <motion.div key={`${job.company}-${job.role}`} variants={fadeInUp}>
               <SpotlightCard className="rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                   <p className="text-lg font-bold text-accent/90">{job.role}</p>
@@ -130,7 +116,7 @@ export default function CVView({
       <Section id="skills" title={lang === "en" ? "Skills" : "Навички"}>
         <div className="grid gap-4 md:grid-cols-2">
           {Object.entries(cv.skills).map(([group, items]) => (
-            <motion.div key={group} variants={item} className="h-full">
+            <motion.div key={group} variants={fadeInUp} className="h-full">
               <SpotlightCard className="h-full rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
                 <p className="font-bold text-accent/90 tracking-tight">{group}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -147,7 +133,7 @@ export default function CVView({
       <Section id="projects" title={lang === "en" ? "Featured Projects" : "Проєкти"}>
         <div className="grid gap-4 md:grid-cols-2">
           {cv.projects.map((p, i) => (
-            <motion.div key={p.name} variants={item} className="h-full">
+            <motion.div key={p.name} variants={fadeInUp} className="h-full">
               <ProjectCard name={p.name} desc={p.desc} link={p.link} stack={p.stack} featured={i === 0} />
             </motion.div>
           ))}
@@ -169,7 +155,7 @@ export default function CVView({
       <Section title={lang === "en" ? "Education & Courses" : "Освіта та Курси"}>
         <div className="grid gap-4 sm:grid-cols-2">
           {cv.courses.map((c) => (
-            <motion.div key={c.name} variants={item} className="h-full">
+            <motion.div key={c.name} variants={fadeInUp} className="h-full">
               <SpotlightCard className="flex h-full flex-col rounded-2xl border border-border bg-mantle p-5 transition-all hover:border-accent/30 dark:hover:shadow-lg dark:hover:shadow-accent/5">
                 <p className="font-bold text-accent/90 leading-tight tracking-tight">{c.name}</p>
                 <div className="mt-auto pt-3 flex items-center justify-between text-xs font-medium text-subtext/80">

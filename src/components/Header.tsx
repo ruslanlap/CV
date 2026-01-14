@@ -2,7 +2,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
+import { fadeIn, slideInLeft, slideInRight } from "@/lib/animation-variants";
 import me from "@/assets/me.png";
 
 export default function Header({
@@ -39,11 +41,17 @@ export default function Header({
   const ageText = lang === "en" ? `${age} years old` : `${age} років`;
 
   return (
-    <header className="grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 items-start">
-      <button
+    <motion.header
+      className="grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 items-start"
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
+    >
+      <motion.button
         onClick={() => setIsImageOpen(true)}
         className="relative h-20 w-20 sm:h-32 sm:w-32 shrink-0 group focus:outline-none focus:ring-2 focus:ring-accent rounded-full"
         aria-label={lang === "en" ? "View full size photo" : "Відкрити фото на весь екран"}
+        variants={slideInLeft}
       >
         <Image
           src={me}
@@ -53,8 +61,8 @@ export default function Header({
           priority
           sizes="(max-width: 640px) 80px, 128px"
         />
-      </button>
-      <div className="flex flex-col">
+      </motion.button>
+      <motion.div className="flex flex-col" variants={slideInRight}>
         <div className="flex flex-wrap items-center justify-between gap-4 w-full">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">{title}</h1>
           <div className="flex items-center gap-2">{children}</div>
@@ -77,7 +85,7 @@ export default function Header({
           <span className="whitespace-nowrap">24.11.1990 • {ageText}</span>
         </p>
 
-      </div>
+      </motion.div>
 
       {isImageOpen && (
         <div
@@ -104,6 +112,6 @@ export default function Header({
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }

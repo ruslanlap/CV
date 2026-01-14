@@ -19,3 +19,5 @@ Desktop.ini
 .vercel
 .env*.local
 github-stats-deploy/
+.kiro/
+

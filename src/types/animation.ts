@@ -13,7 +13,7 @@ export interface UseScrollAnimationOptions {
 }
 
 export interface UseScrollAnimationReturn {
-    ref: RefObject<HTMLElement>;
+    ref: RefObject<HTMLElement | null>;
     isInView: boolean;
     hasBeenInView: boolean;
 }
