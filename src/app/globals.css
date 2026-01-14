@@ -10,6 +10,11 @@
   --color-surface: var(--ctp-surface);
   --color-border: var(--ctp-border);
   --color-accent: var(--ctp-accent);
+  /* Semantic colors */
+  --color-red: var(--ctp-red);
+  --color-green: var(--ctp-green);
+  --color-yellow: var(--ctp-yellow);
+  --color-blue: var(--ctp-blue);
 }
 
 /* Notion-inspired Light Theme */
@@ -23,6 +28,11 @@
   --ctp-surface: #f1f1ef;
   --ctp-border: #e1e1df;
   --ctp-accent: #a166f1;
+  /* Semantic colors - Light theme */
+  --ctp-red: #d20f39;
+  --ctp-green: #40a02b;
+  --ctp-yellow: #df8e1d;
+  --ctp-blue: #1e66f5;
 }
 
 /* Catppuccin Mocha (dark) */
@@ -36,6 +46,11 @@
   --ctp-surface: #313244;
   --ctp-border: #45475a;
   --ctp-accent: #a5cf88;
+  /* Semantic colors - Dark theme (Catppuccin Mocha) */
+  --ctp-red: #f38ba8;
+  --ctp-green: #a6e3a1;
+  --ctp-yellow: #f9e2af;
+  --ctp-blue: #89b4fa;
 }
 
 html,
@@ -53,6 +68,33 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Enable GPU acceleration for animations */
+  [class*="motion-"],
+  [class*="animate-"] {
+    will-change: transform, opacity;
+  }
+
+  /* Remove will-change after animation completes */
+  [class*="motion-"]:not(:hover):not(:focus),
+  [class*="animate-"]:not(:hover):not(:focus) {
+    will-change: auto;
+  }
+}
+
+/* Optimize image rendering */
+img {
+  content-visibility: auto;
+}
+
+/* Optimize off-screen content */
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }
 
 body::selection {

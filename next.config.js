@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Performance optimizations
+    compress: true,
+    poweredByHeader: false,
+
+    // Experimental features for better performance
+    experimental: {
+        optimizePackageImports: ['framer-motion', 'react-icons'],
+    },
+
     images: {
         formats: ['image/avif', 'image/webp'],
         deviceSizes: [640, 750, 828, 1080, 1200, 1920],

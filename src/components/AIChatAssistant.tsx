@@ -188,7 +188,7 @@ export default function AIChatAssistant({
 
             {/* Input Area */}
             <div className="p-4 pt-2 border-t border-border bg-base/50">
-                {error && <p className="text-xs text-red-400 mb-2">{error}</p>}
+                {error && <p className="text-xs text-red mb-2">{error}</p>}
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();

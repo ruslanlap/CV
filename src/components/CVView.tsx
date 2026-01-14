@@ -8,6 +8,8 @@ import Badge from "@/components/Badge";
 import CopyBadge from "@/components/CopyBadge";
 import ProjectCard from "@/components/ProjectCard";
 import { getIcon } from "@/components/icon-map";
+import { ContactFormErrorBoundary } from "@/components/ContactFormErrorBoundary";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Dynamic imports for below-the-fold components to reduce TBT
 const GitHubStats = dynamic(
@@ -145,11 +147,15 @@ export default function CVView({
       </Section>
 
       <Section id="ai-assistant" title={lang === "en" ? "Ask My CV" : "Запитай про CV"}>
-        <AIChatAssistant lang={lang} />
+        <ErrorBoundary lang={lang}>
+          <AIChatAssistant lang={lang} />
+        </ErrorBoundary>
       </Section>
 
       <Section id="contact" title={lang === "en" ? "Get in Touch" : "Зв'яжіться зі мною"}>
-        <ContactForm lang={lang} />
+        <ContactFormErrorBoundary lang={lang}>
+          <ContactForm lang={lang} />
+        </ContactFormErrorBoundary>
       </Section>
 
       <Section title={lang === "en" ? "Education & Courses" : "Освіта та Курси"}>
