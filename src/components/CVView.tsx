@@ -20,14 +20,6 @@ const GitHubStats = dynamic(
   }
 );
 
-const GitHubStatsCustom = dynamic(
-  () => import("@/components/GitHubStatsCustom"),
-  {
-    loading: () => <div className="h-32 animate-pulse bg-mantle rounded-2xl" />,
-    ssr: false
-  }
-);
-
 const AIChatAssistant = dynamic(
   () => import("@/components/AIChatAssistant"),
   {
@@ -151,9 +143,7 @@ export default function CVView({
       </Section>
 
       <Section id="github" title="GitHub">
-        <ErrorBoundary lang={lang} fallback={<GitHubStatsCustom username="ruslanlap" />}>
-          <GitHubStats username="ruslanlap" />
-        </ErrorBoundary>
+        <GitHubStats username="ruslanlap" />
       </Section>
 
       <Section id="ai-assistant" title={lang === "en" ? "Ask My CV" : "Запитай про CV"}>
