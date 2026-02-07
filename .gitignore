@@ -20,4 +20,5 @@ Desktop.ini
 .env*.local
 github-stats-deploy/
 .kiro/
+*.tsbuildinfo
 
