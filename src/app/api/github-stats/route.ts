@@ -2,6 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const GITHUB_API = 'https://api.github.com';
 
+// In-memory cache with TTL to avoid hitting GitHub API rate limits
+const cache = new Map<string, { data: unknown; timestamp: number }>();
+const CACHE_TTL = 60 * 60 * 1000; // 1 hour in ms
+
+function getCached(key: string): unknown | null {
+    const entry = cache.get(key);
+    if (!entry) return null;
+    if (Date.now() - entry.timestamp > CACHE_TTL) {
+        cache.delete(key);
+        return null;
+    }
+    return entry.data;
+}
+
+function setCache(key: string, data: unknown) {
+    cache.set(key, { data, timestamp: Date.now() });
+}
+
+// Return stale cache if fresh fetch fails (stale-while-error)
+function getStaleCached(key: string): unknown | null {
+    const entry = cache.get(key);
+    return entry ? entry.data : null;
+}
+
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const username = searchParams.get('username');
@@ -9,6 +33,14 @@ export async function GET(request: NextRequest) {
 
     if (!username) {
         return NextResponse.json({ error: 'Username is required' }, { status: 400 });
+    }
+
+    const cacheKey = `${username}:${type}`;
+
+    // Return cached data if available
+    const cached = getCached(cacheKey);
+    if (cached) {
+        return NextResponse.json(cached);
     }
 
     const token = process.env.GITHUB_TOKEN;
@@ -26,7 +58,13 @@ export async function GET(request: NextRequest) {
             ]);
 
             if (!userRes.ok || !reposRes.ok) {
-                throw new Error('Failed to fetch GitHub data');
+                // Check for rate limiting specifically
+                const rateLimited = userRes.status === 403 || reposRes.status === 403;
+                if (rateLimited) {
+                    const stale = getStaleCached(cacheKey);
+                    if (stale) return NextResponse.json(stale);
+                }
+                throw new Error(`Failed to fetch GitHub data (${userRes.status}/${reposRes.status})`);
             }
 
             const user = await userRes.json();
@@ -35,15 +73,15 @@ export async function GET(request: NextRequest) {
             // Calculate stats
             const totalStars = repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0);
             const totalForks = repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0);
-            const totalCommits = repos.reduce((acc: number, repo: any) => acc + (repo.size || 0), 0);
 
-            return NextResponse.json({
+            const result = {
                 publicRepos: user.public_repos,
                 followers: user.followers,
                 totalStars,
                 totalForks,
-                totalCommits,
-            });
+            };
+            setCache(cacheKey, result);
+            return NextResponse.json(result);
         } else if (type === 'langs') {
             // Fetch repos and their languages
             const reposRes = await fetch(
@@ -52,7 +90,11 @@ export async function GET(request: NextRequest) {
             );
 
             if (!reposRes.ok) {
-                throw new Error('Failed to fetch repos');
+                if (reposRes.status === 403) {
+                    const stale = getStaleCached(cacheKey);
+                    if (stale) return NextResponse.json(stale);
+                }
+                throw new Error(`Failed to fetch repos (${reposRes.status})`);
             }
 
             const repos = await reposRes.json();
@@ -80,12 +122,21 @@ export async function GET(request: NextRequest) {
                 .slice(0, 8)
                 .map(([name, bytes]) => ({ name, bytes }));
 
-            return NextResponse.json({ languages: topLangs });
+            const result = { languages: topLangs };
+            setCache(cacheKey, result);
+            return NextResponse.json(result);
         }
 
         return NextResponse.json({ error: 'Invalid type parameter' }, { status: 400 });
     } catch (error) {
         console.error('GitHub API error:', error);
+
+        // Serve stale cache on error as fallback
+        const stale = getStaleCached(cacheKey);
+        if (stale) {
+            return NextResponse.json(stale);
+        }
+
         return NextResponse.json(
             { error: 'Failed to fetch GitHub data' },
             { status: 500 }
