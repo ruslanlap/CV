@@ -6,6 +6,7 @@ import Image from "next/image";
 
 // Use your own Vercel deployment of github-readme-stats
 // Deploy your own: https://github.com/anuraghazra/github-readme-stats#deploy-on-your-own
+// IMPORTANT: Set PAT_1 env var in your Vercel deployment to avoid rate limiting
 const STATS_BASE_URL = process.env.NEXT_PUBLIC_GITHUB_STATS_URL || "https://github-stats-deploy-theta.vercel.app";
 
 export default function GitHubStats({ username }: { username: string }) {
@@ -13,10 +14,35 @@ export default function GitHubStats({ username }: { username: string }) {
   const [mounted, setMounted] = useState(false);
   const [statsError, setStatsError] = useState(false);
   const [langsError, setLangsError] = useState(false);
+  const [serviceAvailable, setServiceAvailable] = useState(true);
 
   useEffect(() => {
     requestAnimationFrame(() => setMounted(true));
   }, []);
+
+  // Pre-check: fetch the SVG and detect error content before rendering
+  useEffect(() => {
+    const checkService = async () => {
+      try {
+        const res = await fetch(
+          `${STATS_BASE_URL}/api?username=${username}&show_icons=true`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) {
+          setServiceAvailable(false);
+          return;
+        }
+        const text = await res.text();
+        // The service returns SVGs with "Something went wrong" on rate limit
+        if (text.includes("Something went wrong") || text.includes("rate limit")) {
+          setServiceAvailable(false);
+        }
+      } catch {
+        setServiceAvailable(false);
+      }
+    };
+    checkService();
+  }, [username]);
 
   const isDark = currentTheme === "dark";
   const theme = mounted
@@ -30,6 +56,11 @@ export default function GitHubStats({ username }: { username: string }) {
 
   const stats = `${STATS_BASE_URL}/api?username=${username}&show_icons=true&hide_border=true&include_all_commits=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
   const langs = `${STATS_BASE_URL}/api/top-langs/?username=${username}&layout=compact&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}&langs_count=5&card_width=400`;
+
+  // If service is unavailable (rate limited), throw to trigger ErrorBoundary
+  if (!serviceAvailable) {
+    throw new Error("GitHub readme stats service is rate limited");
+  }
 
   const ErrorFallback = ({ message }: { message: string }) => (
     <div className="w-full h-[195px] rounded-2xl border border-border bg-mantle flex items-center justify-center p-6">
