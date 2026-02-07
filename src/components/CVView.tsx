@@ -12,6 +12,14 @@ import { ContactFormErrorBoundary } from "@/components/ContactFormErrorBoundary"
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Dynamic imports for below-the-fold components to reduce TBT
+const GitHubStats = dynamic(
+  () => import("@/components/GitHubStats"),
+  {
+    loading: () => <div className="h-32 animate-pulse bg-mantle rounded-2xl" />,
+    ssr: false
+  }
+);
+
 const GitHubStatsCustom = dynamic(
   () => import("@/components/GitHubStatsCustom"),
   {
@@ -143,8 +151,8 @@ export default function CVView({
       </Section>
 
       <Section id="github" title="GitHub">
-        <ErrorBoundary lang={lang}>
-          <GitHubStatsCustom username="ruslanlap" />
+        <ErrorBoundary lang={lang} fallback={<GitHubStatsCustom username="ruslanlap" />}>
+          <GitHubStats username="ruslanlap" />
         </ErrorBoundary>
       </Section>
 
