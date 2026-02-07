@@ -51,10 +51,14 @@ export async function GET(request: NextRequest) {
 
     try {
         if (type === 'stats') {
-            // Fetch user data and repos
-            const [userRes, reposRes] = await Promise.all([
+            // Fetch user data, repos, and commit count
+            const [userRes, reposRes, commitsRes] = await Promise.all([
                 fetch(`${GITHUB_API}/users/${username}`, { headers, next: { revalidate: 3600 } }),
                 fetch(`${GITHUB_API}/users/${username}/repos?per_page=100&sort=updated`, { headers, next: { revalidate: 3600 } }),
+                fetch(`${GITHUB_API}/search/commits?q=author:${username}&per_page=1`, {
+                    headers: { ...headers, 'Accept': 'application/vnd.github.cloak-preview+json' },
+                    next: { revalidate: 3600 },
+                }).catch(() => null),
             ]);
 
             if (!userRes.ok || !reposRes.ok) {
@@ -74,11 +78,19 @@ export async function GET(request: NextRequest) {
             const totalStars = repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0);
             const totalForks = repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0);
 
+            // Get total commits count (fallback to 0 if search API fails)
+            let totalCommits = 0;
+            if (commitsRes && commitsRes.ok) {
+                const commitsData = await commitsRes.json();
+                totalCommits = commitsData.total_count || 0;
+            }
+
             const result = {
                 publicRepos: user.public_repos,
                 followers: user.followers,
                 totalStars,
                 totalForks,
+                totalCommits,
             };
             setCache(cacheKey, result);
             return NextResponse.json(result);
