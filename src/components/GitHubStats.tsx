@@ -6,7 +6,7 @@ import Image from "next/image";
 
 // Use your own Vercel deployment of github-readme-stats
 // Deploy your own: https://github.com/anuraghazra/github-readme-stats#deploy-on-your-own
-const STATS_BASE_URL = process.env.NEXT_PUBLIC_GITHUB_STATS_URL || "https://github-readme-stats.vercel.app";
+const STATS_BASE_URL = process.env.NEXT_PUBLIC_GITHUB_STATS_URL || "https://github-stats-deploy-theta.vercel.app";
 
 export default function GitHubStats({ username }: { username: string }) {
   const { theme: currentTheme } = useTheme();
@@ -28,7 +28,7 @@ export default function GitHubStats({ username }: { username: string }) {
   const iconColor = titleColor;
   const textColor = isDark ? "cdd6f4" : "1a1a1a";
 
-  const stats = `${STATS_BASE_URL}/api?username=${username}&show_icons=true&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
+  const stats = `${STATS_BASE_URL}/api?username=${username}&show_icons=true&hide_border=true&include_all_commits=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}`;
   const langs = `${STATS_BASE_URL}/api/top-langs/?username=${username}&layout=compact&hide_border=true&theme=${theme}&title_color=${titleColor}&icon_color=${iconColor}&text_color=${textColor}&langs_count=5&card_width=400`;
 
   const ErrorFallback = ({ message }: { message: string }) => (
