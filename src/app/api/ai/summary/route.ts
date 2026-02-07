@@ -1,16 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Ratelimit } from "@upstash/ratelimit";
-import { kv } from "@vercel/kv";
 import { CV } from "@/types/cv";
 
 export const dynamic = "force-dynamic";
 
-// 5 requests / IP / day (server-side, persistent via Vercel KV)
-const ratelimit = new Ratelimit({
-  redis: kv,
-  limiter: Ratelimit.fixedWindow(5, "1 d"),
-  prefix: "rl:ai-summary",
-});
+// Lazy-init rate limiter so missing KV env vars don't crash the module
+let ratelimit: { limit: (id: string) => Promise<{ success: boolean; limit: number; remaining: number; reset: number }> } | null = null;
+
+function getRateLimiter() {
+  if (ratelimit) return ratelimit;
+  try {
+    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+      return null;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { Ratelimit } = require("@upstash/ratelimit");
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { kv } = require("@vercel/kv");
+    ratelimit = new Ratelimit({
+      redis: kv,
+      limiter: Ratelimit.fixedWindow(5, "1 d"),
+      prefix: "rl:ai-summary",
+    });
+    return ratelimit;
+  } catch {
+    console.warn("Rate limiter init failed — KV not configured, skipping rate limiting");
+    return null;
+  }
+}
 
 type Lang = "en" | "ua";
 
@@ -104,24 +120,31 @@ export async function POST(req: NextRequest) {
   let reset = 0;
 
   if (!isDev) {
-    const rateLimitResult = await ratelimit.limit(ip);
-    success = rateLimitResult.success;
-    limit = rateLimitResult.limit;
-    remaining = rateLimitResult.remaining;
-    reset = rateLimitResult.reset;
+    try {
+      const rl = getRateLimiter();
+      if (rl) {
+        const rateLimitResult = await rl.limit(ip);
+        success = rateLimitResult.success;
+        limit = rateLimitResult.limit;
+        remaining = rateLimitResult.remaining;
+        reset = rateLimitResult.reset;
 
-    if (!success) {
-      return NextResponse.json(
-        { error: "Rate limit exceeded. Try again tomorrow.", remaining, reset },
-        {
-          status: 429,
-          headers: {
-            "X-RateLimit-Limit": String(limit),
-            "X-RateLimit-Remaining": String(Math.max(0, remaining)),
-            "X-RateLimit-Reset": String(reset),
-          },
+        if (!success) {
+          return NextResponse.json(
+            { error: "Rate limit exceeded. Try again tomorrow.", remaining, reset },
+            {
+              status: 429,
+              headers: {
+                "X-RateLimit-Limit": String(limit),
+                "X-RateLimit-Remaining": String(Math.max(0, remaining)),
+                "X-RateLimit-Reset": String(reset),
+              },
+            }
+          );
         }
-      );
+      }
+    } catch (e) {
+      console.warn("Rate limiting failed, allowing request:", e);
     }
   }
 
