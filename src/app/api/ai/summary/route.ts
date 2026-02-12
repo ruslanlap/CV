@@ -171,7 +171,7 @@ export async function POST(req: NextRequest) {
 
   const model =
     process.env.FIREWORKS_MODEL ??
-    "accounts/fireworks/models/llama-v3p1-405b-instruct";
+    "accounts/fireworks/models/deepseek-v3";
 
   const fwRes = await fetch("https://api.fireworks.ai/inference/v1/chat/completions", {
     method: "POST",

@@ -13,7 +13,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Dynamic imports for below-the-fold components to reduce TBT
 const GitHubStats = dynamic(
-  () => import("@/components/GitHubStats"),
+  () => import("@/components/GitHubStatsCustom"),
   {
     loading: () => <div className="h-32 animate-pulse bg-mantle rounded-2xl" />,
     ssr: false
