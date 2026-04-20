@@ -82,10 +82,17 @@ export default function AIChatAssistant({
 
             const data = (await res.json()) as
                 | { answer: string }
-                | { error: string; remaining?: number; reset?: number };
+                | { error: string; details?: string; model?: string; remaining?: number; reset?: number };
 
             if (!res.ok) {
-                setError("error" in data ? data.error : "Request failed");
+                if ("error" in data) {
+                    const parts = [data.error];
+                    if (data.model) parts.push(`(model: ${data.model})`);
+                    if (data.details) parts.push(data.details);
+                    setError(parts.join(" — "));
+                } else {
+                    setError("Request failed");
+                }
                 return;
             }
 

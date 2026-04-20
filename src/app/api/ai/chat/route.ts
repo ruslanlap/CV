@@ -242,7 +242,7 @@ export async function POST(req: NextRequest) {
 
     const model =
         process.env.FIREWORKS_MODEL ??
-        "accounts/fireworks/models/deepseek-v3";
+        "accounts/fireworks/models/deepseek-v3p2";
 
     const fwRes = await fetch("https://api.fireworks.ai/inference/v1/chat/completions", {
         method: "POST",
@@ -268,8 +268,13 @@ export async function POST(req: NextRequest) {
 
     if (!fwRes.ok) {
         const text = await fwRes.text();
+        console.error(`Fireworks API error: ${fwRes.status} ${fwRes.statusText} | model=${model} | body=${text.slice(0, 600)}`);
         return NextResponse.json(
-            { error: `AI service error: ${fwRes.status} ${fwRes.statusText}`, details: text.slice(0, 600) },
+            {
+                error: `AI service error: ${fwRes.status} ${fwRes.statusText}`,
+                model,
+                details: text.slice(0, 600),
+            },
             {
                 status: 502,
                 headers: {
