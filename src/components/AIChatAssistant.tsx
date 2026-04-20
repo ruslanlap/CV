@@ -86,12 +86,9 @@ export default function AIChatAssistant({
 
             if (!res.ok) {
                 if ("error" in data) {
-                    const parts = [data.error];
-                    if (data.model) parts.push(`(model: ${data.model})`);
-                    if (data.details) parts.push(data.details);
-                    setError(parts.join(" — "));
+                    setError(data.error);
                 } else {
-                    setError("Request failed");
+                    setError(lang === "en" ? "Request failed" : "Не вдалося виконати запит");
                 }
                 return;
             }
@@ -101,7 +98,7 @@ export default function AIChatAssistant({
                 content: "answer" in data ? data.answer : "...",
             };
             setMessages((prev) => [...prev, assistantMessage]);
-        } catch (e) {
+        } catch {
             setError(lang === "en" ? "Network error" : "Помилка мережі");
         } finally {
             setLoading(false);

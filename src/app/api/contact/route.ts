@@ -85,12 +85,15 @@ export async function POST(request: NextRequest) {
             const errMsg = (emailResult.error as { message?: string; name?: string })?.message
                 || (emailResult.error as { name?: string })?.name
                 || "Unknown error";
+            const isDev = process.env.NODE_ENV !== "production";
             return NextResponse.json(
                 {
                     success: false,
                     error: "email_send_failed",
-                    message: `Failed to send email: ${errMsg}`,
-                    details: emailResult.error,
+                    message: isDev
+                        ? `Failed to send email: ${errMsg}`
+                        : "Failed to send email. Please try again later.",
+                    ...(isDev ? { details: emailResult.error } : {}),
                 },
                 { status: 500 }
             );

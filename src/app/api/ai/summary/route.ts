@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CV } from "@/types/cv";
+import { CV, Project } from "@/types/cv";
 
 export const dynamic = "force-dynamic";
 
@@ -55,19 +55,17 @@ function buildPrompt(cv: CV, lang: Lang, targetRole?: string) {
     ? (lang === "en" ? `Target role: ${targetRole.trim()}` : `Цільова роль: ${targetRole.trim()}`)
     : (lang === "en" ? "Target role: (not specified)" : "Цільова роль: (не вказано)");
 
-  const skills = Array.isArray(cv.skills) ? cv.skills.slice(0, 24).join(", ") : "";
-  const projects = Array.isArray(cv.projects)
-    ? cv.projects
-      .slice(0, 6)
-      .map((p: any) => `${p.name}${p.stack ? ` (${p.stack})` : ""}`)
-      .join("; ")
-    : "";
-  const exp = Array.isArray(cv.experience)
-    ? cv.experience
-      .slice(0, 3)
-      .map((e: any) => `${e.role} @ ${e.company} — ${e.period}`)
-      .join(" | ")
-    : "";
+  const skills = Object.entries(cv.skills ?? {})
+    .map(([group, items]) => `${group}: ${(items as string[]).join(", ")}`)
+    .join("; ");
+  const projects = (cv.projects ?? [])
+    .slice(0, 6)
+    .map((p: Project) => `${p.name}${p.stack && p.stack.length ? ` (${p.stack.join(", ")})` : ""}`)
+    .join("; ");
+  const exp = (cv.experience ?? [])
+    .slice(0, 3)
+    .map((e) => `${e.role} @ ${e.company} — ${e.period}`)
+    .join(" | ");
 
   if (lang === "ua") {
     return `Ти — кар'єрний консультант. Склади короткий "Tailored summary" для CV Руслана під вказану роль.
@@ -81,7 +79,7 @@ function buildPrompt(cv: CV, lang: Lang, targetRole?: string) {
 ${roleLine}
 
 CV (витяг):
-- Профіль: ${cv.title ?? ""}
+- Профіль: ${cv.role ?? ""}
 - Коротко: ${cv.summary ?? ""}
 - Ключові навички: ${skills}
 - Досвід: ${exp}
@@ -100,7 +98,7 @@ Rules:
 ${roleLine}
 
 CV (extract):
-- Profile: ${cv.title ?? ""}
+- Profile: ${cv.role ?? ""}
 - Summary: ${cv.summary ?? ""}
 - Key skills: ${skills}
 - Experience: ${exp}
@@ -205,7 +203,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const json = (await fwRes.json()) as any;
+  const json = (await fwRes.json()) as {
+    choices?: Array<{ message?: { content?: string }; text?: string }>;
+  };
   const content =
     json?.choices?.[0]?.message?.content ??
     json?.choices?.[0]?.text ??
