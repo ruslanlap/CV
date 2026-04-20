@@ -242,7 +242,7 @@ export async function POST(req: NextRequest) {
 
     const model =
         process.env.FIREWORKS_MODEL ??
-        "accounts/fireworks/models/deepseek-v3p2";
+        "accounts/fireworks/models/gpt-oss-20b";
 
     const fwRes = await fetch("https://api.fireworks.ai/inference/v1/chat/completions", {
         method: "POST",
